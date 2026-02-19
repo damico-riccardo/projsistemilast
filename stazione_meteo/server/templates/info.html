@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>proj-sistemi | Analisi</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- ===== HEADER + NAVBAR ===== -->
+  <header>
+    <h1>Analisi dettagliata del rischio</h1>
+    <nav style="margin-top:1rem;">
+      <a href="{{ url_for('home') }}" style="margin-right:1.5rem; color:#38bdf8;">Home</a>
+      <a href="{{ url_for('dashboard') }}" style="margin-right:1.5rem; color:#38bdf8;">Dashboard</a>
+      <a href="{{ url_for('risk') }}" style="margin-right:1.5rem; color:#38bdf8;">Rischio</a>
+      <a href="{{ url_for('info') }}" style="color:#38bdf8;">Analisi</a>
+    </nav>
+    <div style="margin-top:1rem; text-align:center;">
+    <input type="text" id="searchInput" placeholder="Cerca pagina..." 
+           style="padding:0.5rem; width:200px; border-radius:5px; border:1px solid #ccc;">
+    <button onclick="searchPage()" style="padding:0.5rem 1rem; border-radius:5px; background:#38bdf8; color:white; border:none; cursor:pointer;">Vai</button>
+</div>
+
+<script>
+function searchPage() {
+    const query = document.getElementById("searchInput").value.toLowerCase();
+    const pages = {
+        "home": "{{ url_for('home') }}",
+        "dashboard": "{{ url_for('dashboard') }}",
+        "rischio": "{{ url_for('risk') }}",
+        "analisi": "{{ url_for('info') }}"
+    };
+    if(pages[query]) {
+        window.location.href = pages[query];
+    } else {
+        alert("Pagina non trovata!");
+    }
+}
+</script>
+
+
+  </header>
+
+  <main class="container">
+
+    <!-- ===== DATI MEDI ===== -->
+    <div class="card">
+      <h2>Dati medi giornalieri</h2>
+      <ul>
+        <li>Temperatura media: {{ medie.temperature }} °C</li>
+        <li>Umidità media: {{ medie.humidity }} %</li>
+        <li>Pressione media: {{ medie.pressure }} hPa</li>
+        <li>Pioggia totale: {{ medie.rain }} mm</li>
+      </ul>
+    </div>
+
+    <!-- ===== ULTIMA RILEVAZIONE ===== -->
+    <div class="card" style="margin-top:1.5rem;">
+      <h2>Ultima rilevazione</h2>
+      <ul>
+        <li>Temperatura: {{ ultimo.temperature }} °C</li>
+        <li>Umidità: {{ ultimo.humidity }} %</li>
+        <li>Pressione: {{ ultimo.pressure }} hPa</li>
+        <li>Pioggia: {{ ultimo.rain }} mm</li>
+      </ul>
+    </div>
+
+    <!-- ===== ANALISI DETTAGLIATA ===== -->
+    <div class="card" style="margin-top:1.5rem;">
+      <h2>Analisi dinamica</h2>
+      <ol>
+        {% for riga in analisi %}
+          <li>{{ riga }}</li>
+        {% endfor %}
+      </ol>
+    </div>
+
+    <!-- ===== INDICE DI RISCHIO ===== -->
+    <div class="card" style="margin-top:1.5rem;">
+      <h2>Rischio stimato</h2>
+      <div class="value" style="font-size:1.5rem;">{{ rischio_frana }}</div>
+      <div class="label">Basato sui dati medi e sull'ultima rilevazione</div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer" style="margin-top:2rem; text-align:center; padding:1rem; background:#1e293b; color:white;">
+    Progetto sistemi di misura ed elaborazione dati · Stazione Meteo &copy; 2026
+</footer>
+
+</body>
+</html>

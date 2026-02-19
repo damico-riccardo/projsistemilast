@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>proj-sistemi | Storico dati</title>
+
+  <!-- CSS principale -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <style>
+    .storico-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .storico-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .storico-table th,
+    .storico-table td {
+      padding: 0.6rem 0.8rem;
+      border-bottom: 1px solid #334155;
+      text-align: center;
+    }
+
+    .storico-table th {
+      background: #1e293b;
+      color: #38bdf8;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .storico-table tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .storico-table tr:hover {
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .badge-si {
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    .badge-no {
+      color: #ef4444;
+      font-weight: 600;
+    }
+
+    .empty-msg {
+      text-align: center;
+      margin-top: 2rem;
+      color: #94a3b8;
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== HEADER + NAVBAR ===== -->
+  <header>
+    <h1>Storico dati meteo</h1>
+    <nav style="margin-top:1rem;">
+      <a href="{{ url_for('home') }}" style="margin-right:1.5rem; color:#38bdf8;">Home</a>
+      <a href="{{ url_for('dashboard') }}" style="margin-right:1.5rem; color:#38bdf8;">Dashboard</a>
+      <a href="{{ url_for('risk') }}" style="color:#38bdf8;">Rischio</a>
+    </nav>
+  </header>
+
+  <!-- ===== CONTENUTO ===== -->
+  <main class="storico-container">
+
+  <!-- ===== RICERCA NELLO STORICO ===== -->
+<div style="margin-bottom:1.5rem; text-align:center;">
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Cerca per data, ora o valore..."
+    onkeyup="filtraStorico()"
+    style="
+      padding:0.6rem 1rem;
+      width:280px;
+      border-radius:20px;
+      border:1px solid #38bdf8;
+      outline:none;
+      background:#0f172a;
+      color:white;
+      font-size:0.9rem;
+    "
+  >
+</div>
+<!-- ===== FINE RICERCA ===== -->
+
+
+    {% if storico and storico|length > 0 %}
+
+      <table class="storico-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Temperatura (°C)</th>
+            <th>Umidità (%)</th>
+            <th>Pressione (hPa)</th>
+            <th>Pioggia 3h (mm)</th>
+            <th>Pioggia presente</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for riga in storico %}
+            <tr>
+              <td>{{ riga.timestamp }}</td>
+              <td>{{ riga.temperature }}</td>
+              <td>{{ riga.humidity }}</td>
+              <td>{{ riga.pressure }}</td>
+              <td>{{ riga.pioggia_3h }}</td>
+              <td>
+                {% if riga.pioggia_presente == 'SI' %}
+                  <span class="badge-si">SI</span>
+                {% else %}
+                  <span class="badge-no">NO</span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% else %}
+
+      <div class="empty-msg">
+        Nessun dato storico disponibile al momento.
+      </div>
+
+    {% endif %}
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer" style="margin-top:2rem; text-align:center; padding:1rem; background:#1e293b; color:white;">
+    Progetto sistemi di misura ed elaborazione dati · Stazione Meteo
+  </footer>
+<script>
+function filtraStorico() {
+  const input = document.getElementById("searchInput");
+  const filtro = input.value.toLowerCase();
+  const righe = document.querySelectorAll(".storico-table tbody tr");
+
+  righe.forEach(riga => {
+    const testo = riga.innerText.toLowerCase();
+    riga.style.display = testo.includes(filtro) ? "" : "none";
+  });
+}
+</script>
+
+
+
+</body>
+</html>

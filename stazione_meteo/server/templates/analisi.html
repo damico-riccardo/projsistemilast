@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi - Frane</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- ---------- Header e menu ---------- -->
+<header>
+    <h1>Progetto Frane - Analisi</h1>
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('risk') }}">Risk</a>
+        <a href="{{ url_for('analisi') }}">Analisi</a>
+        <a href="{{ url_for('info') }}">Info</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Analisi dei dati</h2>
+    <p>
+        Questa pagina è dedicata alle analisi più approfondite dei dati raccolti.
+        Qui potranno essere inseriti grafici statistici, tabelle di trend,
+        calcoli probabilistici dettagliati e modelli predittivi per il rischio di frana.
+    </p>
+
+    <div class="data-row" style="flex-direction: column; gap:20px;">
+        <div class="data-box">
+            <h3>Sezione futura 1</h3>
+            <p>Grafici o tabelle dettagliati</p>
+        </div>
+        <div class="data-box">
+            <h3>Sezione futura 2</h3>
+            <p>Ulteriori analisi dei dati</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

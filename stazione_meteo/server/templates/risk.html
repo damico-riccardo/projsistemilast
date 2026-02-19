@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>proj-sistemi | Rischio</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+<body>
+
+  <!-- ===== HEADER + NAVBAR ===== -->
+  <header>
+    <h1>Indice di rischio</h1>
+    <nav style="margin-top:1rem;">
+      <a href="{{ url_for('home') }}" style="margin-right:1.5rem; color:#38bdf8;">Home</a>
+      <a href="{{ url_for('dashboard') }}" style="margin-right:1.5rem; color:#38bdf8;">Dashboard</a>
+      <a href="{{ url_for('risk') }}" style="color:#38bdf8;">Rischio</a>
+    </nav>
+
+    <!-- ===== SEARCH BAR ===== -->
+<div style="margin-top:1rem; text-align:center;">
+    <input type="text" id="searchInput" placeholder="Cerca pagina..." class="search-bar">
+    <button onclick="searchPage()" class="search-btn">Vai</button>
+</div>
+
+<style>
+/* Stile elegante per la searchbar */
+.search-bar {
+    padding: 0.6rem 1rem;
+    width: 250px;
+    border-radius: 25px;
+    border: 1px solid #38bdf8;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.search-bar:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.search-btn {
+    padding: 0.6rem 1.2rem;
+    margin-left: 0.5rem;
+    border-radius: 25px;
+    background: #38bdf8;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: #0ea5e9;
+}
+</style>
+
+<script>
+function searchPage() {
+    const query = document.getElementById("searchInput").value.toLowerCase().trim();
+    const pages = {
+        "home": "{{ url_for('home') }}",
+        "dashboard": "{{ url_for('dashboard') }}",
+        "rischio": "{{ url_for('risk') }}"
+    };
+    if(pages[query]) {
+        window.location.href = pages[query];
+    } else {
+        alert("Pagina non trovata!");
+    }
+}
+</script>
+
+
+  </header>
+
+  <main class="container">
+
+    <!-- ===== INDICE DI RISCHIO ===== -->
+    <div class="card" style="text-align:center;">
+      <h2>Indice di rischio basato sui dati medi</h2>
+      <span id="riskBadge" class="risk {{ rischio.indice|lower }}">{{ rischio.indice }}</span>
+    </div>
+
+    <!-- ===== DETTAGLIO CALCOLO ===== -->
+    <div class="card" style="margin-top:2rem;">
+      <h2>Come è stato calcolato</h2>
+      <p class="label">
+        L'indice di rischio è stato determinato analizzando i valori medi giornalieri raccolti finora:
+      </p>
+      <ul class="label">
+        <li>Temperatura media: {{ medie.temperature }} °C</li>
+        <li>Umidità media: {{ medie.humidity }} %</li>
+        <li>Pressione media: {{ medie.pressure }} hPa</li>
+        <li>Precipitazioni totali: {{ medie.rain }} mm</li>
+      </ul>
+      <p class="label" style="margin-top:1rem;">
+        Il calcolo segue regole definite in base a soglie predefinite:
+        <ul>
+          <li>Temperature fuori dall’intervallo 19–26 °C aumentano il rischio.</li>
+          <li>Umidità oltre 75 % aumenta il rischio.</li>
+          <li>Precipitazioni giornaliere oltre 10 mm aumentano il rischio.</li>
+        </ul>
+        La combinazione di questi fattori determina l’indice finale: LOW, MEDIUM o HIGH.
+      </p>
+    </div>
+
+    <!-- ===== SPIEGAZIONE PROGETTO ===== -->
+    <div class="card" style="margin-top:2rem;">
+      <h2>Obiettivo del progetto</h2>
+      <p class="label">
+        Il progetto proj-sistemi monitora in tempo reale le condizioni meteorologiche,
+        elabora i dati giornalieri e restituisce un indice di rischio facilmente interpretabile.
+        L’obiettivo è fornire informazioni chiare e affidabili per prevenire eventuali criticità
+        dovute alle condizioni ambientali.
+      </p>
+    </div>
+
+<!-- ===== RISCHIO ISTANTANEO ===== -->
+<div class="card" style="margin-top:2rem;">
+  <h2>Rischio istantaneo (dati recenti)</h2>
+
+  <span class="risk {{ rischio_istantaneo.indice|lower }}">
+    {{ rischio_istantaneo.indice }}
+  </span>
+
+  <p class="label" style="margin-top:1rem; text-align:justify;">
+    {{ rischio_istantaneo.spiegazione }}
+  </p>
+
+  <p class="label" style="margin-top:0.5rem; font-size:0.9em; opacity:0.8;">
+    Questa valutazione si basa esclusivamente sulle ultime misurazioni raccolte
+    ed è pensata per evidenziare variazioni rapide delle condizioni ambientali.
+  </p>
+</div>
+
+
+  </main>
+
+  <footer class="site-footer" style="margin-top:2rem; text-align:center; padding:1rem; background:#1e293b; color:white;">
+    Progetto sistemi di misura ed elaborazione dati · Stazione Meteo &copy; 2026
+</footer>
+
+</body>
+</html>

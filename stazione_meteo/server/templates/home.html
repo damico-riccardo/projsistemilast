@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>proj-sistemi | Home</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+  <!-- Plotly -->
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+
+  <!-- JS -->
+  <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+<body>
+
+<!-- ===== HEADER + NAVBAR ===== -->
+<header>
+  <h1>proj-sistemi</h1>
+  <nav style="margin-top:1rem;">
+    <a href="{{ url_for('home') }}" style="margin-right:1.5rem; color:#38bdf8;">Home</a>
+    <a href="{{ url_for('dashboard') }}" style="margin-right:1.5rem; color:#38bdf8;">Dashboard</a>
+    <a href="{{ url_for('risk') }}" style="margin-right:1.5rem; color:#38bdf8;">Rischio</a>
+    <a href="{{ url_for('storico') }}" style="margin-right:1.5rem; color:#38bdf8;">Storico</a>
+  </nav>
+
+  <!-- ===== SEARCH BAR ===== -->
+  <div style="margin-top:1rem; text-align:center;">
+    <input type="text" id="searchInput" placeholder="Cerca pagina..." class="search-bar">
+    <button onclick="searchPage()" class="search-btn">Vai</button>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ===== DASHBOARD PRINCIPALE ===== -->
+  <section class="dashboard">
+
+    <!-- VALORI ISTANTANEI -->
+    <div class="card values">
+      <h2>Valori istantanei</h2>
+
+      <div class="value-row">
+        <span class="label">Temperatura</span>
+        <span class="value">{{ medie.temperature }} °C</span>
+      </div>
+
+      <div class="value-row">
+        <span class="label">Umidità</span>
+        <span class="value">{{ medie.humidity }} %</span>
+      </div>
+
+      <div class="value-row">
+        <span class="label">Pressione</span>
+        <span class="value">{{ medie.pressure }} hPa</span>
+      </div>
+
+      <div class="value-row">
+        <span class="label">Pioggia</span>
+        <span class="value">{{ pioggia_3h }} mm</span>
+      </div>
+    </div>
+
+    <!-- ===== TREND PROBABILITÀ DI FRANA (AL POSTO GIUSTO) ===== -->
+    <div class="card charts">
+      <h2>Trend probabilità di frana (%)</h2>
+
+      <div id="grafico_rischio" style="width:100%; height:320px;"></div>
+
+      <p class="label" style="margin-top:1rem; font-size:0.9em; opacity:0.8;">
+        Evoluzione temporale della probabilità di frana, aggiornata ogni 10 secondi
+        sulla base delle condizioni meteo locali e della memoria del sistema.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ===== BANNER RISCHIO ===== -->
+  <section class="risk {{ rischio.indice|lower }}">
+    <span class="risk-label">RISCHIO:</span>
+    <span class="risk-value">{{ rischio.indice }}</span>
+  </section>
+
+  <!-- ===== TREND TESTUALE ===== -->
+  <div class="card" style="margin-top:2rem;">
+    <h2>Trend giornaliero</h2>
+    <ul class="label">
+      <li>Temperatura: <strong>{{ trend.temperature }}</strong></li>
+      <li>Umidità: <strong>{{ trend.humidity }}</strong></li>
+      <li>Pressione: <strong>{{ trend.pressure }}</strong></li>
+    </ul>
+    <p class="label" style="font-size:0.9em; opacity:0.8;">
+      Il trend è calcolato confrontando le misurazioni più recenti con quelle precedenti.
+    </p>
+  </div>
+
+  <!-- ===== PROBABILITÀ PIOGGIA ===== -->
+  <div class="card" style="margin-top:2rem;">
+    <h2>Probabilità di pioggia (oggi)</h2>
+    <div class="value">{{ pioggia_prevista.probabilita }} %</div>
+    <p class="label" style="margin-top:1rem; text-align:justify;">
+      {{ pioggia_prevista.spiegazione }}
+    </p>
+  </div>
+
+</main>
+
+<p id="meteoUpdateTime"
+   style="margin-top:1.5rem; font-size:0.85rem; color:#94a3b8; text-align:center;">
+  Dati meteo (pressione e pioggia) in aggiornamento…
+</p>
+
+
+<footer class="site-footer"
+        style="margin-top:2rem; text-align:center; padding:1rem;
+               background:#1e293b; color:white;">
+  Progetto sistemi di misura ed elaborazione dati · Stazione Meteo &copy; 2026
+</footer>
+
+</body>
+</html>
+

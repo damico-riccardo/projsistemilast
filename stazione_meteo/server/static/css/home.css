@@ -1,0 +1,112 @@
+/* ==============================
+   HOME PAGE – STILE DEFINITIVO
+   ============================== */
+
+/* DASHBOARD */
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2.5rem;
+    margin-top: 2rem;
+}
+
+/* CARD BASE */
+.card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* TITOLI */
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 1.8rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #38bdf8; /* AZZURRO VIVO */
+    letter-spacing: 0.04em;
+}
+
+/* ==============================
+   VALORI ISTANTANEI
+   ============================== */
+
+.values .value-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.values .value-row:last-child {
+    border-bottom: none;
+}
+
+.values .label {
+    font-size: 1rem;
+    color: #1e293b; /* SCURO */
+}
+
+.values .value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f172a; /* QUASI NERO */
+}
+
+/* ==============================
+   GRAFICO
+   ============================== */
+
+.charts {
+    min-height: 360px;
+}
+
+#grafico {
+    width: 100%;
+    height: 320px;
+    background: #ffffff;
+    border-radius: 12px;
+}
+
+/* ==============================
+   BANNER RISCHIO
+   ============================== */
+
+.risk {
+    margin: 2.5rem auto 0;
+    padding: 1.2rem 2rem;
+    border-radius: 14px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    max-width: 500px;
+    text-align: center;
+    letter-spacing: 0.08em;
+}
+
+/* RISCHIO COLORI FORTI */
+.risk.low {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.risk.medium {
+    background: #facc15;
+    color: #1e293b;
+}
+
+.risk.high {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
+@media (max-width: 900px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
